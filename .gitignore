@@ -159,8 +159,11 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Configuration file
-config.json
+# .DS_Store
+.DS_Store
+
+# JSON
+*.json
 
 # CSV
 *.csv
