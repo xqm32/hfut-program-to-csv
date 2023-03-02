@@ -23,6 +23,8 @@ resp = client.post(
 assert(resp.json()["result"] == True)
 
 resp = client.get("http://jxglstu.hfut.edu.cn/eams5-student/for-std/program-completion-preview")
+assert(resp.text != "null")
+
 json_url = str(resp.url).replace("info", "json")
 id = str(resp.url).rsplit("/", maxsplit=1)[1]
 
