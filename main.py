@@ -42,8 +42,8 @@ class EAMS:
         resp = self.client.get(
             f"{EAMS.base_url}/for-std/program-completion-preview/json/{self.student_id}"
         )
-        with open("preview.json", "w") as f:
-            f.write(resp.text)
+        # with open("preview.json", "w") as f:
+        #     f.write(resp.text)
 
         if resp.text == "null":
             data_list = self.__unadited()
@@ -51,6 +51,7 @@ class EAMS:
             data = resp.json()
             for i in data["moduleList"]:
                 data_list.extend(i["courseList"])
+            data_list.extend(data["outerCourseList"])
 
         df = pandas.DataFrame(data_list)
         df.to_csv(f"{self.student_id}.csv", index=False)
@@ -62,8 +63,8 @@ class EAMS:
         resp = self.client.get(
             f"http://jxglstu.hfut.edu.cn/eams5-student/for-std/program/root-module-json/{self.student_id}"
         )
-        with open("module.json", "w") as f:
-            f.write(resp.text)
+        # with open("module.json", "w") as f:
+        #     f.write(resp.text)
 
         data = resp.json()
         for i in data["children"]:
@@ -72,11 +73,11 @@ class EAMS:
 
                 if code not in grade.index:
                     result_type = "UNREPAIRED"
-                    gp, remark = "", ""
+                    gp, score = "", ""
                 else:
                     result_type = "PASSED"
                     gp = grade.loc[code]["绩点"]
-                    remark = grade.loc[code]["成绩"]
+                    score = grade.loc[code]["成绩"]
 
                 data_list.append(
                     {
@@ -89,9 +90,10 @@ class EAMS:
                         "terms": j["terms"],
                         "compulsory": j["compulsory"],  # TODO 是否必修
                         "resultType": result_type,
-                        "gp": gp,
+                        "score": score,
                         "rank": "",
-                        "remark": remark,
+                        "gp": gp,
+                        "remark": "",
                         "finalResultType": "",
                     }
                 )
