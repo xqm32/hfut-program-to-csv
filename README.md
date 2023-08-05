@@ -8,6 +8,12 @@
 pip install hfut_program_to_csv-<VERSION>-py3-none-any.whl
 ```
 
+也可以通过如下命令直接安装，同样需要将命令中的 `<VERSION>` 替换为具体的版本号：
+
+```sh
+pip install https://github.com/xqm32/hfut-program-to-csv/releases/download/latest/hfut_program_to_csv-<VERSION>-py3-none-any.whl
+```
+
 ## 使用方法
 
 ### 方法一：键入学号和密码
