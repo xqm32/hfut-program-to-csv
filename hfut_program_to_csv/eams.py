@@ -1,6 +1,8 @@
-import httpx
 import hashlib
 import json
+import os
+
+import httpx
 import pandas
 
 
@@ -14,8 +16,14 @@ class EAMS:
             username = input("username: ")
             password = input("password: ")
         else:
+            assert os.path.exists(config) and os.path.isfile(
+                config
+            ), f"Config file not found"
             with open(config) as f:
                 config = json.load(f)
+                assert (
+                    "username" in config and "password" in config
+                ), "Config file must contain username and password"
                 username = config["username"]
                 password = config["password"]
 
@@ -30,8 +38,7 @@ class EAMS:
             },
         )
 
-        if resp.json()["result"] == False:
-            raise Exception("Login failed")
+        assert resp.json()["result"] != False, "Login failed"
 
         resp = self.client.get(f"{EAMS.base_url}/for-std/program-completion-preview")
         self.student_id = str(resp.url).rsplit("/", maxsplit=1)[1]
@@ -106,6 +113,3 @@ class EAMS:
         )
         sheet = pandas.read_html(resp.text)
         return pandas.concat(sheet).set_index("课程代码")
-
-
-EAMS("config.json").to_csv()

@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "hfut-program-to-csv"
+version = "0.1.0"
+description = ""
+authors = ["xqm32 <458173774@qq.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "hfut_program_to_csv" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+httpx = { extras = ["socks"], version = "^0.24.1" }
+pandas = "^2.0.3"
+click = "^8.1.6"
+
+[tool.poetry.scripts]
+hfut-program-to-csv = "hfut_program_to_csv.__main__:run"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
